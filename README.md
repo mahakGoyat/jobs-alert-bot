@@ -9,8 +9,6 @@
 
 **🔗 Live channel:** [@AlertForJobBot](https://t.me/AlertForJobBot)
 
----<img width="495" height="625" alt="WhatsApp Image 2026-08-05 at 2 09 22 PM (2)" src="https://github.com/user-attachments/assets/fe09b010-059c-47f4-bbce-86d567b2d05c" />
-
 
 ## ✨ What it does
 
