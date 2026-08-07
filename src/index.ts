@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import TelegramBot from "node-telegram-bot-api";
 import Groq from "groq-sdk";
 import { createClient } from "@supabase/supabase-js";
+import express from "express";
 
 dotenv.config();
 
@@ -152,9 +153,9 @@ ${historyText || "(koi purani baat nahi hai)"}`,
 async function generateQuiz(subject: string, count: number) {
   const systemPrompt = `Tum ek Government exam (SSC/Railway/Bank level) ke expert ho jo MCQ quiz questions banata hai.
 
-DIFFICULTY: Questions Government competitive exam level ke hone chahiye — SIMPLE school-level ya single-digit arithmetic (jaise "7-3=") KABHI mat banao. Math/Reasoning ho toh percentage, ratio, profit-loss, time-speed-distance, average, interest jaise real exam topics use karo. GK/subject-based ho toh factual exam-level questions banao.
+DIFFICULTY: Questions Government competitive exam level ke hone chahiye — SIMPLE school-level ya single-digit arithmetic KABHI mat banao. Math/Reasoning ho toh percentage, ratio, profit-loss, time-speed-distance jaise exam topics use karo.
 
-ANSWER ACCURACY - BAHUT ZAROORI: Har question ka answer khud pehle solve karo (step by step), FIR confirm karo "correctIndex" us options array mein sahi answer ke EXACT position pe hai. Dobara check karo submit karne se pehle.
+ANSWER ACCURACY - BAHUT ZAROORI: Har question ka answer khud pehle solve karo, FIR confirm karo "correctIndex" sahi answer ke EXACT position pe hai. Dobara check karo.
 
 Reply SIRF JSON array format mein:
 [{"question": "...", "options": ["A", "B", "C", "D"], "correctIndex": 0}, ...]
@@ -189,7 +190,7 @@ async function generateCurrentAffairsQuiz(newsItems: any[], count: number) {
 
   const systemPrompt = `Tum ek current affairs quiz expert ho. Di gayi ACTUAL latest news headlines ke aadhar par MCQ questions banao.
 
-ANSWER ACCURACY - BAHUT ZAROORI: Har answer verify karo news se, "correctIndex" exact sahi position pe ho.
+ANSWER ACCURACY - BAHUT ZAROORI: Har answer verify karo, "correctIndex" exact sahi position pe ho.
 
 Reply SIRF JSON array format mein:
 [{"question": "...", "options": ["A", "B", "C", "D"], "correctIndex": 0}, ...]
@@ -212,9 +213,9 @@ async function generatePYQStyleQuiz(examName: string, subject: string, count: nu
   const systemPrompt = `Tum ek Government exam expert ho jo ${examName} exam ke pichle saalon ke actual pattern ke hisaab se questions banata hai.
 ${subjectLine}
 
-DIFFICULTY: Questions real ${examName} exam ke difficulty level ke hone chahiye, basic/school-level nahi. Math ho toh percentage/ratio/profit-loss/time-speed-distance jaise exam-standard topics use karo.
+DIFFICULTY: Questions real ${examName} exam ke difficulty level ke hone chahiye, basic/school-level nahi.
 
-ANSWER ACCURACY - BAHUT ZAROORI: Har question ka answer khud pehle solve karo, FIR confirm karo "correctIndex" sahi answer ke EXACT position pe hai. Dobara check karo.
+ANSWER ACCURACY - BAHUT ZAROORI: Har question ka answer khud pehle solve karo, FIR confirm karo "correctIndex" sahi position pe hai.
 
 Reply SIRF JSON array format mein:
 [{"question": "...", "options": ["A", "B", "C", "D"], "correctIndex": 0}, ...]
@@ -555,4 +556,16 @@ bot.on("message", async (msg) => {
     console.error("Error aayi:", error);
     bot.sendMessage(chatId, "Kuch gadbad ho gayi, dobara try karo.");
   }
+});
+
+// Render ko khush rakhne ke liye chhota sa web server
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("Bot chal raha hai!");
+});
+
+app.listen(PORT, () => {
+  console.log(`Web server bhi chal raha hai port ${PORT} par`);
 });
