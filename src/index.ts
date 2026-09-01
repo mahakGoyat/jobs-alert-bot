@@ -54,7 +54,7 @@ async function askForJSON(systemPrompt: string, userPrompt: string, maxRetries =
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
       const response = await groq.chat.completions.create({
-        model: "llama-3.3-70b-versatile",
+        model: "openai/gpt-oss-120b",
         messages: [
           { role: "system", content: systemPrompt + "\n\nBAHUT ZAROORI: Sirf VALID JSON reply karo. Har string properly quoted honi chahiye. Koi markdown (```), koi extra text nahi." },
           { role: "user", content: userPrompt },
@@ -81,7 +81,7 @@ async function samajhoMessage(userMessage: string, history: any[], hasPending: b
     : "Koi pichla quiz nahi hai.";
 
   const response = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+    model: "openai/gpt-oss-120b",
     messages: [
       {
         role: "system",
@@ -130,7 +130,7 @@ async function chatReply(userMessage: string, history: any[]) {
   const historyText = history.map((h) => `${h.role === "user" ? "User" : "Bot"}: ${h.message}`).join("\n");
 
   const response = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+    model: "openai/gpt-oss-120b",
     messages: [
       {
         role: "system",
@@ -300,7 +300,7 @@ function hasVacancyDetails(item: any): boolean {
 
 async function likhoPost(newsTitle: string, source: string, link: string, snippet: string) {
   const response = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+    model: "openai/gpt-oss-120b",
     messages: [
       {
         role: "system",
