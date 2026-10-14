@@ -1,6 +1,6 @@
 # Jobs Alert Bot
 
-A Telegram bot that finds job vacancies, creates exam-prep quizzes and current affairs content, and posts them to a channel for students. AI writes the drafts, and you approve every post before it goes live.
+A Telegram quiz bot for exam preparation. Type what you want in plain language and the bot creates MCQ quizzes with AI and posts them to your Telegram channel as quiz polls.
 
 **Try it on Telegram:** [@AlertForJobBot](https://t.me/AlertForJobBot)
 
@@ -12,19 +12,28 @@ A Telegram bot that finds job vacancies, creates exam-prep quizzes and current a
 
 ## Features
 
-- **Job alerts:** fetches current vacancies with SerpAPI and summarizes them with AI
-- **MCQ quizzes:** generates exam-prep and current affairs quizzes automatically
-- **Preview and approve:** every post is shown to you first and is published only after you approve it
-- **Conversation memory:** past conversations and posts are saved in Supabase, so content does not repeat
-- **Images:** adds relevant images to posts using Pixabay
+- **Subject quizzes:** government-exam level MCQs on any subject you ask for (General Knowledge by default), up to 20 questions
+- **Exam-pattern quizzes:** questions modeled on a named exam, with an optional subject filter, up to 15 questions
+- **Current affairs quizzes:** questions built from the latest news headlines fetched with SerpAPI (Google News), up to 15 questions
+- **Hindi and English:** quizzes in Hindi (default), English, or both, with the English translation shown in brackets
+- **Natural language:** no slash commands, just type what you want
+- **Conversation memory:** the last few days of chat are stored in Supabase, so the bot remembers context
+- **Forget option:** ask the bot to clear its stored context
+
+## How It Works
+
+1. You send a message to the bot.
+2. Groq AI works out what you want (subject quiz, exam-pattern quiz, current affairs, chat or forget).
+3. The AI writes the questions, and the bot checks them.
+4. Each valid question is posted to the channel as a Telegram quiz poll.
+5. The bot tells you how many questions were posted.
 
 ## Tech Stack
 
 - **Language:** TypeScript on Node.js
 - **Bot:** node-telegram-bot-api, Express
-- **AI:** Groq (`llama-3.3-70b-versatile`)
-- **Job search:** SerpAPI
-- **Images:** Pixabay
+- **AI:** Groq (`openai/gpt-oss-120b`)
+- **News search:** SerpAPI
 - **Database:** Supabase
 - **Hosting:** Render
 
@@ -43,8 +52,8 @@ A Telegram bot that finds job vacancies, creates exam-prep quizzes and current a
 ### Prerequisites
 
 - Node.js
-- A Telegram bot token from [@BotFather](https://t.me/BotFather)
-- API keys for Groq, SerpAPI, Pixabay and a Supabase project
+- A Telegram bot token from [@BotFather](https://t.me/BotFather) and a Telegram channel where the bot is an admin
+- API keys for Groq and SerpAPI, and a Supabase project
 
 ### Setup
 
@@ -65,11 +74,12 @@ npx tsx src/index.ts
 | Variable | Used for |
 | --- | --- |
 | `TELEGRAM_BOT_TOKEN` | Your Telegram bot token |
-| `GROQ_API_KEY` | AI content generation |
-| `SERPAPI_KEY` | Searching for job vacancies |
+| `TELEGRAM_CHANNEL_ID` | Channel where quizzes are posted |
+| `GROQ_API_KEY` | AI quiz generation |
+| `SERPAPI_KEY` | Current affairs news search |
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_ANON_KEY` | Supabase anon (public) key |
-| `PIXABAY_API_KEY` | Post images |
+| `PORT` | Optional, defaults to 3000 |
 
 Never commit your `.env` file or share your keys.
 
