@@ -1,58 +1,78 @@
-# 🔔 Jobs Alert Bot
+# Jobs Alert Bot
 
-> A Telegram bot that automatically finds job vacancies, exam prep content, and current affairs, then posts them to a student-focused channel — with AI doing the writing and a human approving before it goes live.
+A Telegram bot that finds job vacancies, creates exam-prep quizzes and current affairs content, and posts them to a channel for students. AI writes the drafts, and you approve every post before it goes live.
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+**Try it on Telegram:** [@AlertForJobBot](https://t.me/AlertForJobBot)
+
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-![Groq](https://img.shields.io/badge/Groq-F55036?style=for-the-badge&logo=groq&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Telegram](https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)
 
-**🔗 Live channel:** [@AlertForJobBot](https://t.me/AlertForJobBot)
+---
 
+## Features
 
-## ✨ What it does
+- **Job alerts:** fetches current vacancies with SerpAPI and summarizes them with AI
+- **MCQ quizzes:** generates exam-prep and current affairs quizzes automatically
+- **Preview and approve:** every post is shown to you first and is published only after you approve it
+- **Conversation memory:** past conversations and posts are saved in Supabase, so content does not repeat
+- **Images:** adds relevant images to posts using Pixabay
 
-Built for students — job alerts, quizzes, and exam prep, kept fresh automatically.
+## Tech Stack
 
-| Feature | Details |
-|---|---|
-| **Job alerts** | Pulls fresh vacancies via SerpAPI, summarizes with AI |
-| **MCQ quizzes** | Auto-generated current affairs and exam-prep quizzes |
-| **Preview before posting** | Nothing goes live without a manual approval step |
-| **Memory** | Remembers past conversations/posts via Supabase, avoids repeats |
+- **Language:** TypeScript on Node.js
+- **Bot:** node-telegram-bot-api, Express
+- **AI:** Groq (`llama-3.3-70b-versatile`)
+- **Job search:** SerpAPI
+- **Images:** Pixabay
+- **Database:** Supabase
+- **Hosting:** Render
 
-## 🛠️ How it's built
-
-- **Bot logic** — Node.js + TypeScript, deployed on Render
-- **Content generation** — Groq (`llama-3.3-70b-versatile`) writes and summarizes job/quiz content
-- **Search** — SerpAPI fetches current job postings
-- **Images** — Pixabay for supporting visuals
-- **Database** — Supabase stores conversation memory and post history
-
-## 📁 Project structure
+## Project Structure
 
 ```
 .
-├── src/                 # bot source code
-├── .env.example          # environment variable template
+├── src/             # Bot source code
+├── .env.example     # Environment variable template
 ├── package.json
-└── render.yaml           # deployment config
+└── tsconfig.json
 ```
 
-## 🚀 Run it locally
+## Run Locally
 
-```
+### Prerequisites
+
+- Node.js
+- A Telegram bot token from [@BotFather](https://t.me/BotFather)
+- API keys for Groq, SerpAPI, Pixabay and a Supabase project
+
+### Setup
+
+```bash
 git clone https://github.com/mahakGoyat/jobs-alert-bot.git
 cd jobs-alert-bot
 npm install
 ```
 
-Copy `.env.example` to `.env`, fill in your own API keys, then:
+Copy `.env.example` to `.env` and fill in your own values (see below), then start the bot:
 
+```bash
+npx tsx src/index.ts
 ```
-npm run dev
-```
 
-## 📄 License
+## Environment Variables
 
-Built by [Mahak Goyat](https://github.com/mahakGoyat)
+| Variable | Used for |
+| --- | --- |
+| `TELEGRAM_BOT_TOKEN` | Your Telegram bot token |
+| `GROQ_API_KEY` | AI content generation |
+| `SERPAPI_KEY` | Searching for job vacancies |
+| `SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_ANON_KEY` | Supabase anon (public) key |
+| `PIXABAY_API_KEY` | Post images |
+
+Never commit your `.env` file or share your keys.
+
+## Author
+
+Built by [Mahak Goyat](https://github.com/mahakGoyat).
